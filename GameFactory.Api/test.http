@@ -1,0 +1,28 @@
+GET http://localhost:5284/
+
+###
+GET http://localhost:5284/3
+
+###
+PUT http://localhost:5284/3
+Content-Type: application/json
+
+{
+  "title": "The Legend of Zelda: Breath of the Wild",
+  "genre": "Action-adventure",
+  "price": 49.99,
+  "releaseDate": "2017-03-03"
+}
+
+###
+POST http://localhost:5284/
+Content-Type: application/json
+
+{
+  "title": "Mario Kart 8 Deluxe",
+  "genre": "Racing",
+  "price": 59.99,
+  "releaseDate": "2014-05-29"
+}
+###
+DELETE http://localhost:5284/5

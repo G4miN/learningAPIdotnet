@@ -1,0 +1,5 @@
+{
+  "dotnet.defaultSolution": "GameFactory.slnx",
+  "appService.preDeployTask": "publish-release",
+  "appService.deploySubpath": "GameFactory.Api/bin/Release/net10.0/publish"
+}
