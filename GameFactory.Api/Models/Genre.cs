@@ -1,5 +1,3 @@
-using System;
-
 namespace GameFactory.Api.Models;
 
 public class Genre
