@@ -17,7 +17,7 @@ namespace GameFactory.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGames()
         {
-            var games = await _gameService.GetGames().ConfigureAwait(false);
+            var games = await _gameService.GetAllGames().ConfigureAwait(false);
             return Ok(games);
         }
     }

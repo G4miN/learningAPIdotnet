@@ -1,4 +1,4 @@
-﻿using GameFactory.Api.Models;
+﻿using GameFactory.Api.Dto;
 using GameFactory.Api.Repository;
 
 namespace GameFactory.Api.Services
@@ -12,10 +12,25 @@ namespace GameFactory.Api.Services
             _gameRepository = gameRepository;
         }
 
-        public async Task<ICollection<Game>> GetGames()
+        public Task CreateGame(CreateGameDto request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<GameDto>> GetAllGames()
         {
             var games = await _gameRepository.GetAllAsync().ConfigureAwait(false);
-            return games;
+            return (ICollection<GameDto>)games;
+        }
+
+        public Task UpdateGame(UpdateGameDto request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

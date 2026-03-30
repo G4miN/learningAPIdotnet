@@ -1,9 +1,13 @@
-﻿using GameFactory.Api.Models;
+﻿using GameFactory.Api.Dto;
+using GameFactory.Api.Models;
 
 namespace GameFactory.Api.Services
 {
     public interface IGameService
     {
-        Task<ICollection<Game>> GetGames();
+        Task<ICollection<GameDto>> GetAllGames();
+        Task CreateGame(CreateGameDto request);
+        Task DeleteGame();
+        Task UpdateGame(UpdateGameDto request);
     }
 }
