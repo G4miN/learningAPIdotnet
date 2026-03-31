@@ -6,7 +6,6 @@ public record GameDto
 {
     public int Id { get; init; }
     [Required]
-    [StringLength(50)]
     public string Title { get; init; } = string.Empty;
     [Required]
     [StringLength(20)]

@@ -38,7 +38,7 @@ namespace GameFactory.Api.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+        public async Task<ICollection<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
         {
             IQueryable<T> query = _dbSet;
 
@@ -64,6 +64,15 @@ namespace GameFactory.Api.Repository
         public async Task SaveAsync()
         {
             await _DbContext.SaveChangesAsync();
+        }
+
+        public async Task<T> Update(T obj)
+        {
+            _dbSet.Attach(obj);
+            _dbSet.Entry(obj).State = EntityState.Modified;
+
+            await SaveAsync().ConfigureAwait(false);
+            return obj;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace GameFactory.Api.Services
     {
         Task<ICollection<GameDto>> GetAllGames();
         Task CreateGame(CreateGameDto request);
-        Task DeleteGame();
+        Task DeleteGame(int id);
         Task UpdateGame(UpdateGameDto request);
     }
 }
