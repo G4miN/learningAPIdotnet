@@ -15,17 +15,19 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<GameFactoryContext>();
     await DatabaseSeeder.SeedAsync(context);
 }
 
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
-    app.UseSwagger();
     app.UseSwaggerUI();
 }
 
