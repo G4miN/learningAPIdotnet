@@ -15,6 +15,15 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddControllers();
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbcontext = scope.ServiceProvider.GetRequiredService<GameFactoryContext>();
+    if (dbcontext.Database.GetPendingMigrations().Any() || dbcontext.Database.IsRelational())
+    {
+        dbcontext.Database.Migrate();
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
