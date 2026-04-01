@@ -11,7 +11,9 @@ namespace GameFactory.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
- 
+            modelBuilder.Entity<Game>()
+               .Property(g => g.Price)
+               .HasColumnType("decimal(18,2)");
         }
 
         public DbSet<Game> Games { get; set; } = null!;
