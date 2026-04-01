@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameFactory.Api.Repository
 {
-    public class GameRespository : GenericRepository<Game>, IGameRepository
+    public class GameRepository : GenericRepository<Game>, IGameRepository
     {
         private readonly GameFactoryContext _DbContext;
 
-        public GameRespository(GameFactoryContext context) : base(context)
+        public GameRepository(GameFactoryContext context) : base(context)
         {
             _DbContext = context;
         }
