@@ -1,0 +1,9 @@
+.vs/
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+GameFactory/.vs/
+GameFactory.Api/CopilotSnapshots/
+GameFactory.Api/CopilotIndices/
+GameFactory.Api/.copilot-chat/
