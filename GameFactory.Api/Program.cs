@@ -12,6 +12,8 @@ builder.Services.AddDbContext<GameFactoryContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -35,6 +37,12 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.MapControllers();
 app.UseSwagger();
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
