@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -30,15 +29,36 @@ jobs:
         continue-on-error: true
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
+          SHORTCUT_TOKEN: ${{ secrets.SHORTCUT_API_TOKEN }}
         run: |
-          STORY_ID=$(echo "$COMMIT_MSG" | grep -oP '(?<=sc-)\d+')
+          STORY_ID=$(echo "$COMMIT_MSG" | grep -oP '(?<=sc-)\d+' | head -1)
           if [ -n "$STORY_ID" ]; then
             curl -s -X PUT \
               -H "Content-Type: application/json" \
-              -H "Shortcut-Token: ${{ secrets.SHORTCUT_API_TOKEN }}" \
+              -H "Shortcut-Token: ${SHORTCUT_TOKEN}" \
               -d '{"workflow_state_id": 500000010}' \
-              "https://api.app.shortcut.com/api/v3/stories/$STORY_ID"
-            echo "Ticket sc-$STORY_ID movido a Done"
+              "https://api.app.shortcut.com/api/v3/stories/${STORY_ID}"
+            echo "Ticket sc-${STORY_ID} movido a Done"
           else
-            echo "No se encontró ticket de Shortcut en el mensaje del commit"
+            echo "No se encontró ticket en el commit"
+          fi
+
+  move-to-in-progress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move Shortcut ticket to In Progress
+        continue-on-error: true
+        env:
+          SHORTCUT_TOKEN: ${{ secrets.SHORTCUT_API_TOKEN }}
+        run: |
+          STORY_ID=$(echo "${{ github.ref_name }}" | grep -oP '(?<=sc-)\d+' | head -1)
+          if [ -n "$STORY_ID" ]; then
+            curl -s -X PUT \
+              -H "Content-Type: application/json" \
+              -H "Shortcut-Token: ${SHORTCUT_TOKEN}" \
+              -d '{"workflow_state_id": 500000008}' \
+              "https://api.app.shortcut.com/api/v3/stories/${STORY_ID}"
+            echo "Ticket sc-${STORY_ID} movido a In Progress"
+          else
+            echo "No se encontró ticket en la rama"
           fi
