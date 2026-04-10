@@ -17,7 +17,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build & Publish
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish ./GameFactory.Api/GameFactory.Api.csproj -c Release -o ./publish
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
