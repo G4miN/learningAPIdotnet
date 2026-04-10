@@ -27,6 +27,7 @@ jobs:
           package: ./publish
 
       - name: Move Shortcut ticket to Done
+        continue-on-error: true
         run: |
           BRANCH="${{ github.ref_name }}"
           STORY_ID=$(echo "$BRANCH" | grep -oP '(?<=sc-)\d+')
