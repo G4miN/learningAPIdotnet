@@ -28,8 +28,9 @@ jobs:
 
       - name: Move Shortcut ticket to Done
         continue-on-error: true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
           STORY_ID=$(echo "$COMMIT_MSG" | grep -oP '(?<=sc-)\d+')
           if [ -n "$STORY_ID" ]; then
             curl -s -X PUT \
