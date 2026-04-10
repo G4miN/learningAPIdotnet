@@ -33,7 +33,7 @@ namespace GameFactory.Api.Controllers
         public async Task<IActionResult> GetAllGames()
         {
             //var games = await _gameService.GetAllGames().ConfigureAwait(false);
-            return Ok("ok manin nitido");
+            return Ok("ok manin nitido! uf!!");
         }
 
         [HttpPut]
