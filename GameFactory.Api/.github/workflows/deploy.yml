@@ -1,0 +1,42 @@
+name: Deploy Backend to Azure
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build & Publish
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'GameFactoryApiYM'
+          publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
+          package: ./publish
+
+      - name: Move Shortcut ticket to Done
+        run: |
+          BRANCH="${{ github.ref_name }}"
+          STORY_ID=$(echo "$BRANCH" | grep -oP '(?<=sc-)\d+')
+          if [ -n "$STORY_ID" ]; then
+            curl -s -X PUT \
+              -H "Content-Type: application/json" \
+              -H "Shortcut-Token: ${{ secrets.SHORTCUT_API_TOKEN }}" \
+              -d '{"workflow_state_id": 500000010}' \
+              "https://api.app.shortcut.com/api/v3/stories/$STORY_ID"
+            echo "Ticket sc-$STORY_ID movido a Done"
+          else
+            echo "No se encontró ticket de Shortcut en el nombre de la rama"
+          fi
