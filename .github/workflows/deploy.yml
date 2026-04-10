@@ -29,8 +29,8 @@ jobs:
       - name: Move Shortcut ticket to Done
         continue-on-error: true
         run: |
-          BRANCH="${{ github.ref_name }}"
-          STORY_ID=$(echo "$BRANCH" | grep -oP '(?<=sc-)\d+')
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          STORY_ID=$(echo "$COMMIT_MSG" | grep -oP '(?<=sc-)\d+')
           if [ -n "$STORY_ID" ]; then
             curl -s -X PUT \
               -H "Content-Type: application/json" \
@@ -39,5 +39,5 @@ jobs:
               "https://api.app.shortcut.com/api/v3/stories/$STORY_ID"
             echo "Ticket sc-$STORY_ID movido a Done"
           else
-            echo "No se encontró ticket de Shortcut en el nombre de la rama"
+            echo "No se encontró ticket de Shortcut en el mensaje del commit"
           fi
